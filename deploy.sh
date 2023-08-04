@@ -70,7 +70,6 @@ fi
 selectNodeVersion () {
   if [[ -n "$KUDU_SELECT_NODE_VERSION_CMD" ]]; then
     SELECT_NODE_VERSION="$KUDU_SELECT_NODE_VERSION_CMD \"$DEPLOYMENT_SOURCE\" \"$DEPLOYMENT_TARGET\" \"$DEPLOYMENT_TEMP\""
-    echo $SELECT_NODE_VERSION
     eval $SELECT_NODE_VERSION
     exitWithMessageOnError "select node version failed"
 
@@ -99,12 +98,7 @@ selectNodeVersion () {
 # Deployment
 # ----------
 
-##################################################################################################################################
-# Deployment
-# ----------
-
 echo Handling node.js deployment.
-
 
 # 1. KuduSync
 if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
@@ -113,21 +107,16 @@ if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
 fi
 
 # 2. Select node version
-node --version
 selectNodeVersion
 
-# 3. Install yarn packages
-cd "$DEPLOYMENT_TARGET"
-echo "Setting yarn version to stable.."
-yarn set version stable
-echo "Checking yarn version.."
-yarn -v
-echo "Running yarn install.."
-yarn install
-
-# 4. Build packages
-echo "Building packages"
-# yarn build
+# 3. Install npm packages
+if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
+  cd "$DEPLOYMENT_TARGET"
+  echo "Running $NPM_CMD install --production"
+  eval $NPM_CMD install --production
+  exitWithMessageOnError "npm failed"
+  cd - > /dev/null
+fi
 
 ##################################################################################################################################
 echo "Finished successfully."
