@@ -1,4 +1,9 @@
 {
   "name": "latitude-api-test",
-  "packageManager": "yarn@3.6.1"
+  "packageManager": "yarn@3.6.1",
+  "dependencies": {
+  },
+  "engines": {
+    "yarn": "1.22.15"
+  }
 }
