@@ -31,5 +31,5 @@ jobs:
         with:
           app-name: 'latitude-api-test'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_838F19AB3D264606A7C8AB67B55FF842 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_80CB345645044396BF428F5FDE17E36E }}
           package: .
